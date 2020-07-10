@@ -1,43 +1,5 @@
 import React from 'react'
 
-class TaskListText extends React.Component {
-  render() {
-    return (
-      <li key={this.props.listItemKey}>{this.props.listItemText}</li>
-    );
-  }
-}
-
-class TaskListTrash extends React.Component {
-  render() {
-    return (
-      <li key={this.props.listItemKey}>{this.props.listItemText}</li>
-    );
-  }
-}
-
-class TaskListElements extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
-  }
-  render() {
-    console.log('-- render list');
-    var e = this.props.taskListElements
-    console.log(e);
-
-    return (
-      <div>
-          <ul>
-            {
-              this.props.taskListElements.map((this.props.taskListElements) => 
-                <TaskListText key={el}>test <TaskListTrash ></li>) 
-            }
-          </ul>
-      </div>
-    );
-  }
-}
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -51,9 +13,12 @@ class Tasks extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.logValue = this.logValue.bind(this);
+    this.trashElement = this.trashElement.bind(this);
+    this.handleListItemChange = this.handleListItemChange.bind(this);
 
   }
   handleChange(event) {
+    console.log('-- handle change');
     this.setState({taskInputValue: event.target.value});
     console.log(this.state.taskInputValue);
   }
@@ -77,6 +42,7 @@ class Tasks extends React.Component {
   logValue(){
     console.log(this.state);
   }
+
   handleInputChange(event) {
     console.log('--- handle input change');
     console.log(event);
@@ -88,6 +54,23 @@ class Tasks extends React.Component {
       [name]: value
     });
   }
+  handleListItemChange(event ){
+    console.log('--- handle list item change')
+    const index = event.target.getAttribute('arr-index')
+    const val = event.target.value
+    const tasks = this.state.taskListElements
+    tasks[index] = val
+    this.setState({
+      taskListElements: tasks
+    });
+
+  }
+  trashElement(index){
+    console.log('-- trash element:' + index);
+    this.setState({
+      taskListElements: this.state.taskListElements.filter( (v,k) => k !== index )
+    })
+  }
   render() {
 
     return (
@@ -97,18 +80,40 @@ class Tasks extends React.Component {
           <label htmlFor="Task">New Task</label>
 
           <input value={this.state.taskInputValue} onChange={this.handleChange}
-            className="task-input"
             type="input"
-            name="taskInput"/>
+            name="taskInput"
+            className="border border-gray-400 task-input"
+          />
 
-          <button type="submit" className='' onClick={this.handleSubmit}>Add</button>
-          <button type="button" onClick={this.logValue}>Log value</button>
+          <button 
+            type="submit" 
+            className='' 
+            onClick={this.handleSubmit} 
+            className="border border-red-700">
+          Add
+          </button>
+
+          <button 
+            type="button" 
+            onClick={this.logValue} 
+            className="border border-green-500">
+            Log value
+          </button>
 
         </form>
-        <TaskListElements taskListElements={this.state.taskListElements} />
+
+        <ul>
+          {this.state.taskListElements.map((item, key) =>
+            <li key={key}>
+              <input arr-index={key}  defaultValue={item} onChange={this.handleListItemChange} className="border border-gray-400"/>
+              <button type="button" onClick={() => this.trashElement(key)}  className="border border-red-200">X</button>
+            </li>
+          )}
+        </ul>
       </div>
     );
   }
 }
+
 
 export default  Tasks;
