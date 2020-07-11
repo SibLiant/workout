@@ -68,19 +68,20 @@ class Tasks extends React.Component {
   trashElement(i){
     console.log('-- trash element:' + i);
     const newList = this.state.taskListElements.filter((v,k) => { 
-      console.log(v,k);
       return k !== i 
     }) 
     this.setState({ taskListElements: newList })
   }
 
   render() {
-
     console.log('--rendering')
     console.log(this.state.taskListElements)
     const liItems = this.state.taskListElements.map((v,k) =>{
       return (
-        <li key={k}>{v} <button type="button" onClick={() => this.trashElement(k)}>X</button></li>
+        <li key={k}>
+          {v} 
+          <button type="button" onClick={() => this.trashElement(k)}>X</button>
+        </li>
       )
     })
     return (
