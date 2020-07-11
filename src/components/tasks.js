@@ -65,14 +65,24 @@ class Tasks extends React.Component {
     });
 
   }
-  trashElement(index){
-    console.log('-- trash element:' + index);
-    this.setState({
-      taskListElements: this.state.taskListElements.filter( (v,k) => k !== index )
-    })
+  trashElement(i){
+    console.log('-- trash element:' + i);
+    const newList = this.state.taskListElements.filter((v,k) => { 
+      console.log(v,k);
+      return k !== i 
+    }) 
+    this.setState({ taskListElements: newList })
   }
+
   render() {
 
+    console.log('--rendering')
+    console.log(this.state.taskListElements)
+    const liItems = this.state.taskListElements.map((v,k) =>{
+      return (
+        <li key={k}>{v} <button type="button" onClick={() => this.trashElement(k)}>X</button></li>
+      )
+    })
     return (
       <div className="task-form">
         <form>
@@ -87,7 +97,6 @@ class Tasks extends React.Component {
 
           <button 
             type="submit" 
-            className='' 
             onClick={this.handleSubmit} 
             className="border border-red-700">
           Add
@@ -103,12 +112,7 @@ class Tasks extends React.Component {
         </form>
 
         <ul>
-          {this.state.taskListElements.map((item, key) =>
-            <li key={key}>
-              <input arr-index={key}  defaultValue={item} onChange={this.handleListItemChange} className="border border-gray-400"/>
-              <button type="button" onClick={() => this.trashElement(key)}  className="border border-red-200">X</button>
-            </li>
-          )}
+          {liItems}
         </ul>
       </div>
     );
