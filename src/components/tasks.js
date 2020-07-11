@@ -77,13 +77,11 @@ class Tasks extends React.Component {
     console.log('--rendering')
     console.log(this.state.taskListElements)
     const liItems = this.state.taskListElements.map((v,k) =>{
-      const name = 'li_' + k
       return (
         <li key={k}>
           <input 
             type="text" 
             arr-index={k}
-            defaultValue={v} 
             value={v} 
             onChange={this.handleListItemChange}
           />
