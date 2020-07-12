@@ -7,54 +7,42 @@ import Workouts from './components/workouts'
 
 class App extends React.Component{
     
-    constructor(props) {
+  constructor(props) {
     super(props);
-    this.state = {};
-
+    this.state = {
+      taskList: ['yoga', 'kung fu', 'chops'],
+      workouts: {
+        "workout_1": [
+          {
+            excersice: "incline press",
+            sets: 4,
+            reps: 8,
+            rest_period_minuets: 2
+          },
+          {
+            excersice: "bench press",
+            sets: 4,
+            reps: 8,
+            rest_period_minuets: 2
+          },
+        ],
+        "workout_2": [
+          {
+            excersice: "sholder press",
+            sets: 4,
+            reps: 8,
+            rest_period_minuets: 2
+          },
+          {
+            excersice: "bicept curl",
+            sets: 4,
+            reps: 8,
+            rest_period_minuets: 2
+          },
+        ]
+      }
+    }
   }
-
-  componentDidMount() {
-    this.setState({tasks:['breakfast', 'shit shower shave', 'sexy time with wife']});
-    this.setState({
-          workouts:{
-                  "workout_1": [
-                    {
-                      excersice: "incline press",
-                      sets: 4,
-                      reps: 8,
-                      rest_period_minuets: 2
-                    },
-                    {
-                      excersice: "bench press",
-                      sets: 4,
-                      reps: 8,
-                      rest_period_minuets: 2
-                    },
-                  ],
-                  "workout_2": [
-                    {
-                      excersice: "sholder press",
-                      sets: 4,
-                      reps: 8,
-                      rest_period_minuets: 2
-                    },
-                    {
-                      excersice: "bicept curl",
-                      sets: 4,
-                      reps: 8,
-                      rest_period_minuets: 2
-                    },
-                  ]
-          }
-    })
-      
-  }
-
-
-// You can think of these components as "pages"
-// in your app.
-
-
   render(){
     return (
     <Router>
@@ -79,32 +67,15 @@ class App extends React.Component{
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-
-          <Route path="/tasks">
-            <Tasks tasks={this.state.tasks} grump="grumpy"/>
-          </Route>
-
-          <Route path="/calendar">
-            <Calendar />
-          </Route>
-
-          <Route path="/workouts" workouts={this.state.workouts}>
-            <Workouts />
-          </Route>
-
-          <Route path="/">
-            <Home />
-          </Route>
-
+          <Route path="/tasks"> <Tasks tasks={this.state.taskList} /> </Route>
+          <Route path="/calendar"> <Calendar /> </Route>
+          <Route path="/workouts" workouts={this.state.workouts}> <Workouts /> </Route>
+          <Route path="/"> <Home /> </Route>
         </Switch>
       </div>
     </Router>
     );
   }
-
-
-
-
 }
 function Home() {
   return (
